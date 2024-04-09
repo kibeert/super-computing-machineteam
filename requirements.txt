@@ -1,0 +1,3 @@
+#Thw following are the requirements needed
+pip
+qd

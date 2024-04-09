@@ -1,3 +1,4 @@
+<?php require("script.php"); ?>
 <?php
 
 @include 'config.php';
@@ -72,6 +73,15 @@ if (isset($_POST['submit'])) {
 };
 
 ?>
+<?php 
+   if(isset($_POST['submit'])){
+      if(empty($_POST['email']) || empty($_POST['subject']) || empty($_POST['message'])){
+         $response = "All fields are required";
+      }else{
+         $response = sendMail($_POST['email'], $_POST['subject'], $_POST['message']);
+      }
+   }
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -79,6 +89,7 @@ if (isset($_POST['submit'])) {
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="icon" type="image/png" sizes="32x32" href="/favicon/icons8-ereader-48.png">
    <title>Register to E-library</title>
 
    <!-- Custom CSS file link -->
@@ -102,13 +113,26 @@ if (isset($_POST['submit'])) {
       <input type="password" name="password" required placeholder="Enter your password">
       <input type="password" name="cpassword" required placeholder="Confirm your password">
       <input type="text" name="serial_no" required placeholder="Enter serial number">
-      <input type="text" name="phone_no" required placeholder="Enter phone number">
+      <input type="text" name="phone_no" required placeholder="Enter phone number" maxlength="10" minlength="10">
+
       <select name="user_type">
          <option value="user">User</option>
          <option value="admin">Admin</option>
       </select>
 
       <input type="submit" name="submit" value="Register Now" class="form-btn">
+      <button type="submit" name="submit">Submit</button>
+      <?php
+      if(@$response == "success"){
+         ?>
+            <p class="success">Email send successfully</p>
+         <?php
+      }else{
+         ?>
+            <p class="error"><?php echo @$response; ?></p>
+         <?php
+      }
+   ?>
       <p>Already have an account? <a href="login_form.php">Login Now</a></p>
    </form>
    

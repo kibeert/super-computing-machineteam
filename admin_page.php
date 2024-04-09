@@ -37,6 +37,7 @@ mysqli_close($conn);
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="icon" type="image/png" sizes="32x32" href="/favicon/icons8-ereader-48.png">
    <title>Admin Page</title>
 
    <!-- custom css file link  -->
@@ -66,6 +67,8 @@ mysqli_close($conn);
                <th>Phone_no</th>
                <th>User Type</th>
                <th>Qr code path</th>
+               <th>Edit</th>
+               <th>Delete</th>
             </tr>
          </thead>
          <tbody>
@@ -81,6 +84,8 @@ mysqli_close($conn);
                     echo "<td>" . $user['phone_no'] . "</td>";
                     echo "<td>" . $user['user_type'] . "</td>";
                     echo "<td>" . $user['qr_code_path'] . "</td>";
+                    echo "<td><a href='edit_user.php?id=" . $user['id'] . "'><button>Edit</button></a></td>";
+    echo "<td><a href='delete_user.php?id=" . $user['id'] . "'><button>Delete</button></a></td>";
                     echo "</tr>";
                 }
             } else {
