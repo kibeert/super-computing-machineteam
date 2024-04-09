@@ -9,8 +9,9 @@ if (isset($_POST['submit'])) {
     $pass = md5($_POST['password']);
     $cpass = md5($_POST['cpassword']);
     $user_type = $_POST['user_type'];
-    $serial_no = mysqli_real_escape_string($conn, $_POST['serial_no']); // New field for serial number
+    $serial_no = ($user_type == 'user') ? mysqli_real_escape_string($conn, $_POST['serial_no']) : ''; // Only retrieve serial number if user type is not admin
     $phone_no = mysqli_real_escape_string($conn, $_POST['phone_no']); // New field for phone number
+    $employee_no = ($user_type == 'admin') ? mysqli_real_escape_string($conn, $_POST['employee_no']) : ''; // Only retrieve employee number if user type is admin
 
     $select = "SELECT * FROM user_form WHERE email = '$email' && password = '$pass'";
 
@@ -34,42 +35,27 @@ if (isset($_POST['submit'])) {
 
             $filename = uniqid() . '.png';
             $file = $path . $filename;
-            $text = "Name: $name\nEmail: $email\nSerial No: $serial_no\nPhone No: $phone_no";
+            $text = "Name: $name\nEmail: $email\nPhone No: $phone_no";
 
-            if (isset($_POST['submit'])) {
-
-               // If Name has been submitted
-               if (isset($_POST['name'])) {
-                   $text = "Name: " . $_POST['name'] . "\n";
-               }
-               // If Email has been submitted
-               if (isset($_POST['email'])) {
-                   $text .= "Email: " . $_POST['email'] . "\n";
-               }
-               // If Serial Number has been submitted
-               if (isset($_POST['serial_no'])) {
-                   $text .= "Serial No: " . $_POST['serial_no'] . "\n";
-               }
-               // If Phone Number has been submitted
-               if (isset($_POST['phone_no'])) {
-                   $text .= "Phone No: " . $_POST['phone_no'] . "\n";
-               }
-            
+            if ($user_type == 'user') {
+                $text .= "\nSerial No: $serial_no";
+            } else {
+                $text .= "\nEmployee No: $employee_no";
+            }
 
             // Create the QR code
             QRcode::png($text, $file, 'H', 2, 1);
-            }
 
             // Save the file path to the database
             $qr_code_path = mysqli_real_escape_string($conn, $filename);
 
-            $insert = "INSERT INTO user_form(name, email, password, user_type, serial_no, phone_no, qr_code_path) VALUES('$name','$email','$pass','$user_type','$serial_no','$phone_no','$qr_code_path')";
+            $insert = "INSERT INTO user_form(name, email, password, user_type, serial_no, phone_no, employee_no, qr_code_path) VALUES('$name','$email','$pass','$user_type','$serial_no','$phone_no','$employee_no','$qr_code_path')";
             mysqli_query($conn, $insert);
 
             header('location:login_form.php');
         }
     }
-};
+}
 
 ?>
 
@@ -101,20 +87,36 @@ if (isset($_POST['submit'])) {
       <input type="email" name="email" required placeholder="Enter your email">
       <input type="password" name="password" required placeholder="Enter your password">
       <input type="password" name="cpassword" required placeholder="Confirm your password">
-      <input type="text" name="serial_no" required placeholder="Enter serial number">
       <input type="text" name="phone_no" required placeholder="Enter phone number" maxlength="10" minlength="10">
-
-      <select name="user_type">
+      <select name="user_type" id="user_type" onchange="toggleFields()">
          <option value="user">User</option>
          <option value="admin">Admin</option>
       </select>
-
+      <div id="serial_no_field">
+         <input type="text" name="serial_no" placeholder="Enter serial number">
+      </div>
+      <div id="employee_no_field" style="display: none;">
+         <input type="text" name="employee_no" placeholder="Enter employee number">
+      </div>
       <input type="submit" name="submit" value="Register Now" class="form-btn">
       <p>Already have an account? <a href="login_form.php">Login Now</a></p>
    </form>
- 
 </div>
 
+<script>
+function toggleFields() {
+    var userType = document.getElementById("user_type").value;
+    var serialNoField = document.getElementById("serial_no_field");
+    var employeeNoField = document.getElementById("employee_no_field");
+    if (userType === "user") {
+        serialNoField.style.display = "block";
+        employeeNoField.style.display = "none";
+    } else {
+        serialNoField.style.display = "none";
+        employeeNoField.style.display = "block";
+    }
+}
+</script>
 
 </body>
 </html>
