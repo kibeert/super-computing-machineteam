@@ -25,3 +25,15 @@ if (isset($_GET['id'])) {
 
 mysqli_close($conn);
 ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/icons8-delete-24.png">
+    <title>delete user</title>
+</head>
+<body>
+    
+</body>
+</html>

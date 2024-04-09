@@ -37,7 +37,7 @@ mysqli_close($conn);
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <link rel="icon" type="image/png" sizes="32x32" href="/favicon/icons8-ereader-48.png">
+   <link rel="icon" type="image/png" sizes="32x32" href="/favicon/icons8-admin-96.png">
    <title>Admin Page</title>
 
    <!-- custom css file link  -->
