@@ -1,4 +1,3 @@
-<?php require("script.php"); ?>
 <?php
 
 @include 'config.php';
@@ -73,15 +72,6 @@ if (isset($_POST['submit'])) {
 };
 
 ?>
-<?php 
-   if(isset($_POST['submit'])){
-      if(empty($_POST['email']) || empty($_POST['subject']) || empty($_POST['message'])){
-         $response = "All fields are required";
-      }else{
-         $response = sendMail($_POST['email'], $_POST['subject'], $_POST['message']);
-      }
-   }
-?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -89,7 +79,7 @@ if (isset($_POST['submit'])) {
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <link rel="icon" type="image/png" sizes="32x32" href="/favicon/icons8-ereader-48.png">
+   <link rel="icon" type="image/png" sizes="32x32" href="/favicon/icons8-register-96.png">
    <title>Register to E-library</title>
 
    <!-- Custom CSS file link -->
@@ -98,7 +88,6 @@ if (isset($_POST['submit'])) {
 <body>
    
 <div class="form-container">
-
    <form action="" method="post">
       <h3>Register To E-library</h3>
       <?php
@@ -121,24 +110,11 @@ if (isset($_POST['submit'])) {
       </select>
 
       <input type="submit" name="submit" value="Register Now" class="form-btn">
-      <button type="submit" name="submit">Submit</button>
-      <?php
-      if(@$response == "success"){
-         ?>
-            <p class="success">Email send successfully</p>
-         <?php
-      }else{
-         ?>
-            <p class="error"><?php echo @$response; ?></p>
-         <?php
-      }
-   ?>
       <p>Already have an account? <a href="login_form.php">Login Now</a></p>
    </form>
-   
-
-  
+ 
 </div>
+
 
 </body>
 </html>

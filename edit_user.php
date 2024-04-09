@@ -1,85 +1,65 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['admin_name'])) {
+    header("Location: login_form.php");
+    exit();
+}
+
+if (isset($_GET['id'])) {
+    $user_id = $_GET['id'];
+
+    // Here, you would typically fetch user data from the database using the $user_id,
+    // but since you want to update data without accessing the database directly,
+    // we'll assume you have the necessary data stored in an associative array.
+
+    // For demonstration purposes, let's assume you have a sample user array.
+    $user = [
+        'id' => $user_id,
+        'name' => 'John Doe',
+        'email' => 'john@example.com',
+        'serial_no' => '12345',
+        'phone_no' => '555-123-4567',
+        'user_type' => 'Admin',
+        'qr_code_path' => '/path/to/qr_code.png'
+    ];
+} else {
+    // Redirect back to the admin page if no user ID is provided
+    header("Location: admin.php");
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/icons8-edit-30.png">
-    <title>Edit User</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            margin: 0;
-            padding: 0;
-        }
-
-        .container {
-            max-width: 600px;
-            margin: 50px auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        form {
-            margin-top: 20px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        input[type="text"] {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-
-        input[type="submit"] {
-            background-color: #4caf50;
-            color: #fff;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        input[type="submit"]:hover {
-            background-color: #45a049;
-        }
-    </style>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Edit User</title>
+   <link rel="stylesheet" href="/css/style2.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Edit User Details</h1>
-        <form action="update_user.php" method="post">
-            <!-- Populate form fields with user details -->
-            <input type="hidden" name="id" value="<?php echo $user['id']; ?>">
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" value="<?php echo $user['name']; ?>">
-            <label for="email">Email:</label>
-            <input type="text" id="email" name="email" value="<?php echo $user['email']; ?>">
-            <label for="serial_no">Serial Number:</label>
-            <input type="text" id="serial_no" name="serial_no" value="<?php echo $user['serial_no']; ?>">
-            <label for="phone_no">Phone Number:</label>
-            <input type="text" id="phone_no" name="phone_no" value="<?php echo $user['phone_no']; ?>">
-            <label for="user_type">User Type:</label>
-            <input type="text" id="user_type" name="user_type" value="<?php echo $user['user_type']; ?>">
-            <label for="qr_code_path">QR Code Path:</label>
-            <input type="text" id="qr_code_path" name="qr_code_path" value="<?php echo $user['qr_code_path']; ?>">
-            <input type="submit" value="Update">
-        </form>
-    </div>
+   
+<div class="container">
+   <div class="content">
+      <h3>Edit User Details</h3>
+      <form action="update_user.php" method="post">
+          <input type="hidden" name="user_id" value="<?php echo $user['id']; ?>">
+          <label for="name">Name:</label>
+          <input type="text" name="name" value="<?php echo $user['name']; ?>"><br>
+          <label for="email">Email:</label>
+          <input type="email" name="email" value="<?php echo $user['email']; ?>"><br>
+          <label for="serial_no">Serial No:</label>
+          <input type="text" name="serial_no" value="<?php echo $user['serial_no']; ?>"><br>
+          <label for="phone_no">Phone No:</label>
+          <input type="text" name="phone_no" value="<?php echo $user['phone_no']; ?>"><br>
+          <label for="user_type">User Type:</label>
+          <input type="text" name="user_type" value="<?php echo $user['user_type']; ?>"><br>
+          <input type="submit" name="submit" value="Update">
+      </form>
+   </div>
+</div>
+
 </body>
 </html>

@@ -43,6 +43,32 @@ mysqli_close($conn);
    <!-- custom css file link  -->
    <link rel="stylesheet" href="css/style.css">
 
+   <!-- JavaScript for confirmation prompt -->
+   <script>
+       function confirmDelete(id) {
+           if (confirm("Are you sure you want to delete this user?")) {
+               window.location.href = "delete_user.php?id=" + id;
+               showModal();
+           }
+       }
+       function showModal() {
+            var modal = document.getElementById("myModal");
+            var span = document.getElementsByClassName("close")[0];
+
+            modal.style.display = "block";
+
+            span.onclick = function() {
+               modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+               if (event.target == modal) {
+                  modal.style.display = "none";
+    }
+  }
+}
+
+   </script>
 </head>
 <body>
    
@@ -85,7 +111,7 @@ mysqli_close($conn);
                     echo "<td>" . $user['user_type'] . "</td>";
                     echo "<td>" . $user['qr_code_path'] . "</td>";
                     echo "<td><a href='edit_user.php?id=" . $user['id'] . "'><button>Edit</button></a></td>";
-    echo "<td><a href='delete_user.php?id=" . $user['id'] . "'><button>Delete</button></a></td>";
+                    echo "<td><button onclick='confirmDelete(" . $user['id'] . ")'>Delete</button></td>";
                     echo "</tr>";
                 }
             } else {
